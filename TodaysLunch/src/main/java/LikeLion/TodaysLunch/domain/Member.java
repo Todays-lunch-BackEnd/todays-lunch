@@ -36,11 +36,13 @@ public class Member {
     }
 
     @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "member")
-    private List<Review> review = new ArrayList<>();
+    private List<Review> reviews = new ArrayList<>();
+
 
     public Long getId() {
         return id;
     }
+
 
     public String getNickname() {
         return nickname;
