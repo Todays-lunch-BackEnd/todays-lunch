@@ -13,13 +13,13 @@ public class MemberService {
     public MemberService(MemberRepository memberRepository) {
         this.memberRepository = memberRepository;
     }
-
-    public Long signUp(String nickname, String password) {
-        Member member = new Member(nickname, password);
-        validateDuplication(member);
-        memberRepository.save(member);
-        return member.getId();
-    }
+//
+//    public Long signUp(String nickname, String password) {
+//        Member member = new Member(nickname, password);
+//        validateDuplication(member);
+//        memberRepository.save(member);
+//        return member.getId();
+//    }
 
     private void validateDuplication(Member member) {
         memberRepository.findByNickname(member.getNickname())

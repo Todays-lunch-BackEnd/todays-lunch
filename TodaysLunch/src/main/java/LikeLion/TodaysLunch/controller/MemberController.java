@@ -25,15 +25,15 @@ public class MemberController {
         return null;
     }
 
-    @PostMapping("/user")
-    public ResponseEntity<String> createMember(@RequestParam String nickname, @RequestParam String password) {
-        try{
-            memberService.signUp(nickname, password);
-        } catch(IllegalArgumentException e){
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-        return ResponseEntity.ok().body("Success");
-    }
+//    @PostMapping("/user")
+//    public ResponseEntity<String> createMember(@RequestParam String nickname, @RequestParam String password) {
+//        try{
+//            memberService.signUp(nickname, password);
+//        } catch(IllegalArgumentException e){
+//            return ResponseEntity.badRequest().body(e.getMessage());
+//        }
+//        return ResponseEntity.ok().body("Success");
+//    }
 
     @PutMapping("/user")
     public void updateMemberCategories
