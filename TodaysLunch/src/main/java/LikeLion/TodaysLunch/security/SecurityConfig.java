@@ -17,15 +17,16 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+  // 정적인 파일에 대한 요청들
   private static final String[] AUTH_WHITELIST = {
       "/h2/**"
   };
-  private final MemberRepository memberRepository;
-
-  @Autowired
-  public SecurityConfig(MemberRepository memberRepository) {
-    this.memberRepository = memberRepository;
+  // 회원가입 시 비밀번호 암호화에 사용할 Encoder 빈 등록
+  @Bean
+  public BCryptPasswordEncoder encodePassword() {
+    return new BCryptPasswordEncoder();
   }
+
 
   @Bean
   @Override
@@ -33,21 +34,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     return super.authenticationManagerBean();
   }
 
-  @Bean
-  public CustomUserDetailService customUserDetailService(){
-    return new CustomUserDetailService(memberRepository);
-  }
-
-  @Bean
-  public BCryptPasswordEncoder encodePassword() {
-    return new BCryptPasswordEncoder();
-  }
-
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
-    http.httpBasic().disable()
-    .csrf().disable()
+    http.csrf().disable()
 //        .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 //        .and()
         .authorizeRequests()
@@ -64,8 +54,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     // 정적인 파일 요청에 대해 무시
     web.ignoring().antMatchers(AUTH_WHITELIST);
   }
-  @Override
-  public void configure(AuthenticationManagerBuilder auth) throws Exception {
-    auth.userDetailsService(customUserDetailService()).passwordEncoder(encodePassword());
-  }
+//  @Override
+//  public void configure(AuthenticationManagerBuilder auth) throws Exception {
+//    auth.userDetailsService(customUserDetailService()).passwordEncoder(encodePassword());
+//  }
 }
