@@ -8,8 +8,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
+@Getter
+@Setter
 public class RestaurantLike {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,4 +26,8 @@ public class RestaurantLike {
     @JoinColumn
     private Restaurant restaurant;
 
+    public RestaurantLike(Member member, Restaurant restaurant) {
+        this.member = member;
+        this.restaurant = restaurant;
+    }
 }
