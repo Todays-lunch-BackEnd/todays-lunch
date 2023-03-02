@@ -1,5 +1,7 @@
 package LikeLion.TodaysLunch.domain;
 
+import LikeLion.TodaysLunch.domain.relation.MemberMenuRelation;
+import LikeLion.TodaysLunch.domain.relation.MemberRestaurantRelation;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -51,6 +53,11 @@ public class Member implements UserDetails {
     @JoinColumn
     private ImageUrl imageUrl;
 
+    @OneToMany(mappedBy = "member")
+    private List<MemberMenuRelation> menuLikes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member")
+    private List<MemberRestaurantRelation> restaurantLikes = new ArrayList<>();
 
     @ElementCollection(fetch = FetchType.EAGER) //roles 컬렉션
     @Builder.Default
@@ -83,6 +90,7 @@ public class Member implements UserDetails {
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
     }
+
     @Override
     public boolean isAccountNonExpired() {
         return true;
@@ -102,6 +110,7 @@ public class Member implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
     public void updateLocationCategory(String locationCategory) {
         this.locationCategory.setName(locationCategory);
     }

@@ -1,7 +1,10 @@
 package LikeLion.TodaysLunch.domain;
 
+import LikeLion.TodaysLunch.domain.relation.MemberRestaurantRelation;
 import com.sun.istack.NotNull;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import lombok.Builder;
@@ -49,9 +52,12 @@ public class Restaurant {
   private Long agreement;
   private Long reviewCount;
   private Long lowestPrice;
-  @OneToOne
-  @JoinColumn
-  private Member member;
+
+  @OneToMany(mappedBy = "restaurant")
+  private List<MemberRestaurantRelation> likes = new ArrayList<>();
+
+  @OneToMany(mappedBy = "restaurant")
+  private List<Menu> menus = new ArrayList<>();
 
   // 맛집 심사를 위한 등록에서 쓰임
   @Builder
@@ -82,6 +88,6 @@ public class Restaurant {
   public void setReviewCount(Long reviewCount) {
     this.reviewCount = reviewCount;
   }
-  public void setMember(Member member) { this.member = member; }
+  /*public void setMember(Member member) { this.member = member; }*/
   public void setLowestPrice(Long lowestPrice) { this.lowestPrice = lowestPrice; }
 }
