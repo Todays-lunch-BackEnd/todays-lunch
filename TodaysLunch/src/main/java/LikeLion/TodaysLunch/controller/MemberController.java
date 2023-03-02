@@ -5,6 +5,7 @@ import LikeLion.TodaysLunch.domain.Menu;
 import LikeLion.TodaysLunch.domain.Restaurant;
 import LikeLion.TodaysLunch.dto.MemberDto;
 import LikeLion.TodaysLunch.dto.TokenDto;
+import LikeLion.TodaysLunch.service.LikeService;
 import LikeLion.TodaysLunch.service.MenuService;
 import LikeLion.TodaysLunch.service.RestaurantService;
 import LikeLion.TodaysLunch.service.login.MemberService;
@@ -30,11 +31,14 @@ public class MemberController {
     private final RestaurantService restaurantService;
     private final MenuService menuService;
 
+    private LikeService likeService;
     @Autowired
-    public MemberController(MemberService memberService, RestaurantService restaurantService, MenuService menuService) {
+    public MemberController(MemberService memberService, RestaurantService restaurantService, MenuService menuService,
+                            LikeService likeService) {
         this.memberService = memberService;
         this.restaurantService = restaurantService;
         this.menuService = menuService;
+        this.likeService = likeService;
     }
 
     @PostMapping("/join")
@@ -105,14 +109,14 @@ public class MemberController {
                 if (restaurant == null) {
                     return ResponseEntity.notFound().build();
                 }
-                memberService.likeRestaurant(member, restaurant);
+                likeService.likeRestaurant(member, restaurant);
                 break;
             case "menu":
                 Menu menu = menuService.getMenuById(itemId);
                 if (menu == null) {
                     return ResponseEntity.notFound().build();
                 }
-                memberService.likeMenu(member, menu);
+                likeService.likeMenu(member, menu);
                 break;
             default:
                 return ResponseEntity.badRequest().build();

@@ -84,9 +84,5 @@ public class MemberService {
                 .orElseThrow(()-> new IllegalArgumentException("존재하지 않는 회원입니다."));
     }
 
-    public void likeRestaurant(Member member, Restaurant restaurant) {
-    }
 
-    public void likeMenu(Member member, Menu menu) {
-    }
 }
