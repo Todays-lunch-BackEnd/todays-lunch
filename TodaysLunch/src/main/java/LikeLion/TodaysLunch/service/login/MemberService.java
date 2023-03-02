@@ -1,6 +1,8 @@
 package LikeLion.TodaysLunch.service.login;
 
 import LikeLion.TodaysLunch.domain.Member;
+import LikeLion.TodaysLunch.domain.Menu;
+import LikeLion.TodaysLunch.domain.Restaurant;
 import LikeLion.TodaysLunch.dto.MemberDto;
 import LikeLion.TodaysLunch.dto.MemberDtoMapper;
 import LikeLion.TodaysLunch.dto.TokenDto;
@@ -75,5 +77,16 @@ public class MemberService {
         } else {
             throw new IllegalArgumentException("인가 되지 않은 사용자입니다.");
         }
+    }
+
+    public Member getMemberById(Long memberId) {
+        return memberRepository.findById(memberId)
+                .orElseThrow(()-> new IllegalArgumentException("존재하지 않는 회원입니다."));
+    }
+
+    public void likeRestaurant(Member member, Restaurant restaurant) {
+    }
+
+    public void likeMenu(Member member, Menu menu) {
     }
 }
