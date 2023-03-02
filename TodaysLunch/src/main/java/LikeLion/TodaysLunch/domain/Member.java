@@ -115,4 +115,11 @@ public class Member implements UserDetails {
     }
 
 
+    public void addRestaurantLike(RestaurantLike restaurantLike) {
+        restaurantLikes.add(restaurantLike);
+    }
+
+    public void addMenuLike(MenuLike menuLike) {
+        menuLikes.add(menuLike);
+    }
 }
