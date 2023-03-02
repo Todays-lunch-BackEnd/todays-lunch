@@ -31,14 +31,11 @@ public class MemberController {
     private final RestaurantService restaurantService;
     private final MenuService menuService;
 
-    private LikeService likeService;
     @Autowired
-    public MemberController(MemberService memberService, RestaurantService restaurantService, MenuService menuService,
-                            LikeService likeService) {
+    public MemberController(MemberService memberService, RestaurantService restaurantService, MenuService menuService) {
         this.memberService = memberService;
         this.restaurantService = restaurantService;
         this.menuService = menuService;
-        this.likeService = likeService;
     }
 
     @PostMapping("/join")
@@ -92,36 +89,5 @@ public class MemberController {
         }
     }
 
-    @PutMapping("/{memberId}/likes/{itemId}")
-    public ResponseEntity<Member> likeItem(
-            @PathVariable Long memberId,
-            @PathVariable Long itemId,
-            @RequestParam("itemType") String itemType) {
 
-        Member member = memberService.getMemberById(memberId);
-        if (member == null) {
-            return ResponseEntity.notFound().build();
-        }
-
-        switch (itemType) {
-            case "restaurant":
-                Restaurant restaurant = restaurantService.getRestaurantById(itemId);
-                if (restaurant == null) {
-                    return ResponseEntity.notFound().build();
-                }
-                likeService.likeRestaurant(member, restaurant);
-                break;
-            case "menu":
-                Menu menu = menuService.getMenuById(itemId);
-                if (menu == null) {
-                    return ResponseEntity.notFound().build();
-                }
-                likeService.likeMenu(member, menu);
-                break;
-            default:
-                return ResponseEntity.badRequest().build();
-        }
-
-        return ResponseEntity.ok(member);
-    }
 }
