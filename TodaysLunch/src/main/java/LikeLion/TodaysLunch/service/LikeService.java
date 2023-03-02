@@ -59,7 +59,7 @@ public class LikeService {
             return;
         }
         member.addMenuLike(new MenuLike(member, menu));
-        menuRepository.save(menu);
+        memberRepository.save(member);
     }
 
 
