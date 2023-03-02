@@ -39,7 +39,7 @@ public class LikeService {
 
         if (member.getRestaurantLikes()
                 .stream()
-                .anyMatch(like -> like.getRestaurant().getId().equals(restaurantId))) {
+                .anyMatch(like -> like.getRestaurant().equals(restaurant))) {
             return;
         }
         member.addRestaurantLike(new RestaurantLike(member, restaurant));
@@ -55,7 +55,7 @@ public class LikeService {
 
         if (member.getMenuLikes()
                 .stream()
-                .anyMatch(like -> like.getMenu().getId().equals(menuId))) {
+                .anyMatch(like -> like.getMenu().equals(menu))) {
             return;
         }
         member.addMenuLike(new MenuLike(member, menu));
