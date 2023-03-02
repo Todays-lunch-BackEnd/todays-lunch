@@ -1,16 +1,14 @@
 package LikeLion.TodaysLunch.domain;
 
-import LikeLion.TodaysLunch.domain.relation.MemberRestaurantRelation;
-import com.sun.istack.NotNull;
+import LikeLion.TodaysLunch.domain.relation.RestaurantLike;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+
 @Getter
 @NoArgsConstructor
 @Entity
@@ -54,7 +52,7 @@ public class Restaurant {
   private Long lowestPrice;
 
   @OneToMany(mappedBy = "restaurant")
-  private List<MemberRestaurantRelation> likes = new ArrayList<>();
+  private List<RestaurantLike> likes = new ArrayList<>();
 
   @OneToMany(mappedBy = "restaurant")
   private List<Menu> menus = new ArrayList<>();

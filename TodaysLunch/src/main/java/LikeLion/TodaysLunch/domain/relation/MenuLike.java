@@ -10,7 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class MemberMenuRelation {
+public class MenuLike {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

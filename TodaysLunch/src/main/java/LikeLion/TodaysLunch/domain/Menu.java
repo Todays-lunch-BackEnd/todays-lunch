@@ -1,7 +1,6 @@
 package LikeLion.TodaysLunch.domain;
 
-import LikeLion.TodaysLunch.domain.relation.MemberMenuRelation;
-import com.sun.istack.NotNull;
+import LikeLion.TodaysLunch.domain.relation.MenuLike;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
@@ -30,7 +29,7 @@ public class Menu {
     @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
     @OneToMany(mappedBy = "menu")
-    private List<MemberMenuRelation> likes = new ArrayList<>();
+    private List<MenuLike> likes = new ArrayList<>();
     @OneToOne
     @JoinColumn
     private Sale sale;
