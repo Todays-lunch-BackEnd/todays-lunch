@@ -43,7 +43,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
 
                 .authorizeRequests()
-                .antMatchers("/mypage").authenticated()
+                .antMatchers("/members/mypage","/likes/**").authenticated()
                 .anyRequest().permitAll()
                 .and()
 
