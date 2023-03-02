@@ -102,7 +102,7 @@ public class ReviewService {
     }
 
     public boolean isReviewOwner(Long reviewId, Long restaurantId, Long memberId) {
-        Optional<Review> reviewOpt = reviewRepository.findByRestaurantIdAndId(restaurantId, reviewId);
-        return reviewOpt.isPresent() && reviewOpt.get().getMember().getId().equals(memberId);
+        Optional<Review> review = reviewRepository.findByRestaurantIdAndId(restaurantId, reviewId);
+        return review.isPresent() && review.get().getMember().getId().equals(memberId);
     }
 }
