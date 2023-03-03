@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -43,7 +44,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
 
                 .authorizeRequests()
-                .antMatchers("/members/mypage","/likes/**").authenticated()
+
+                .antMatchers("/likes/**").authenticated()
+                .antMatchers("/members/mypage","/members/logout-member").authenticated()
+                .antMatchers(HttpMethod.POST,"/restaurants/*/reviews/**").authenticated()
+                .antMatchers(HttpMethod.PATCH,"/restaurants/*/reviews/**").authenticated()
+                .antMatchers(HttpMethod.DELETE,"/restaurants/*/reviews/**").authenticated()
+                
                 .anyRequest().permitAll()
                 .and()
 
