@@ -50,8 +50,14 @@ public class MemberService {
     public TokenDto login(MemberDto memberDto) {
         Member member = memberRepository.findByNickname(memberDto.getNickname())
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
+
         if (!passwordEncoder.matches(memberDto.getPassword(), member.getPassword())) {
             throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+        }
+
+        String existingToken = redisTemplate.opsForValue().get(memberDto.getNickname());
+        if (existingToken != null) {
+            throw new IllegalStateException("이미 로그인 한 유저입니다.");
         }
 
         TokenDto tokenDto = jwtTokenProvider.createToken(member.getNickname(), member.getRoles());

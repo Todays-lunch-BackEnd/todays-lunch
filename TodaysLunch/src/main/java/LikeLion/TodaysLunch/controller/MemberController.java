@@ -61,6 +61,9 @@ public class MemberController {
             }
             if (errorMessage.equals("비밀번호가 일치하지 않습니다.")) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorMessage);
+            }
+            if (errorMessage.equals("이미 로그인 한 유저입니다.")) {
+                return ResponseEntity.status(HttpStatus.CONFLICT).body(errorMessage);
             } else {
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
             }
