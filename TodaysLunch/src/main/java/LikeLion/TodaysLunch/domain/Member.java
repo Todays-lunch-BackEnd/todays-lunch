@@ -1,10 +1,11 @@
 package LikeLion.TodaysLunch.domain;
 
+import LikeLion.TodaysLunch.domain.relation.MenuLike;
+import LikeLion.TodaysLunch.domain.relation.RestaurantLike;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -51,6 +52,11 @@ public class Member implements UserDetails {
     @JoinColumn
     private ImageUrl imageUrl;
 
+    @OneToMany(mappedBy = "member")
+    private List<MenuLike> menuLikes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member")
+    private List<RestaurantLike> restaurantLikes = new ArrayList<>();
 
     @ElementCollection(fetch = FetchType.EAGER) //roles 컬렉션
     @Builder.Default
@@ -83,6 +89,7 @@ public class Member implements UserDetails {
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
     }
+
     @Override
     public boolean isAccountNonExpired() {
         return true;
@@ -102,9 +109,17 @@ public class Member implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
     public void updateLocationCategory(String locationCategory) {
         this.locationCategory.setName(locationCategory);
     }
 
 
+    public void addRestaurantLike(RestaurantLike restaurantLike) {
+        restaurantLikes.add(restaurantLike);
+    }
+
+    public void addMenuLike(MenuLike menuLike) {
+        menuLikes.add(menuLike);
+    }
 }

@@ -108,4 +108,9 @@ public class MenuService {
     menuRepository.delete(menu);
     return menu;
   }
+
+  public Menu getMenuById(Long itemId) {
+    return menuRepository.findById(itemId)
+            .orElseThrow(()-> new IllegalArgumentException("존재하지 않는 회원입니다."));
+  }
 }

@@ -163,4 +163,9 @@ public class RestaurantService {
     }
     return pageable;
   }
+
+  public Restaurant getRestaurantById(Long itemId) {
+    return restaurantRepository.findById(itemId)
+            .orElseThrow(()-> new IllegalArgumentException("존재하지 않는 맛집입니다."));
+  }
 }

@@ -39,6 +39,9 @@ public class Review {
   @JoinColumn
   private Restaurant restaurant;
 
+  @ManyToOne
+  @JoinColumn
+  private Member member;
   @Builder
   public Review(String reviewContent, Integer rating) {
     this.reviewContent = reviewContent;
@@ -57,9 +60,5 @@ public class Review {
       this.rating = reviewDto.getRating();
     }
   }
-
-//  @ManyToOne
-//  @JoinColumn(name="group")
-//  private Member member;
 
 }
