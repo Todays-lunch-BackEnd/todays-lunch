@@ -64,7 +64,7 @@ public class JwtTokenProvider {
 
     public boolean validateToken(String jwtToken) {
         try {
-            return getExpirationTime(jwtToken).before(new Date())
+            return getExpirationTime(jwtToken).after(new Date())
                     && !tokenBlacklistService.isBlacklisted(jwtToken);
         } catch (Exception e) {
             return false;
