@@ -44,11 +44,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
 
                 .authorizeRequests()
+
                 .antMatchers("/likes/**").authenticated()
                 .antMatchers("/members/mypage","/members/logout-member").authenticated()
                 .antMatchers(HttpMethod.POST,"/restaurants/*/reviews/**").authenticated()
                 .antMatchers(HttpMethod.PATCH,"/restaurants/*/reviews/**").authenticated()
                 .antMatchers(HttpMethod.DELETE,"/restaurants/*/reviews/**").authenticated()
+
                 .anyRequest().permitAll()
                 .and()
 
