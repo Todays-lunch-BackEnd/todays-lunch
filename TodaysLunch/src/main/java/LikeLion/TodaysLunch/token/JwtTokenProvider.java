@@ -2,6 +2,7 @@ package LikeLion.TodaysLunch.token;
 
 import LikeLion.TodaysLunch.dto.TokenDto;
 import LikeLion.TodaysLunch.service.login.CustomUserDetailService;
+import LikeLion.TodaysLunch.service.login.TokenBlacklistService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
@@ -23,10 +24,13 @@ public class JwtTokenProvider {
     private static String SECRET_KEY = Base64.getEncoder().encodeToString(secretKey.getBytes());
     private long tokenValidTime = 24 * 60 * 60 * 1000L;
     private final CustomUserDetailService customUserDetailService;
+    private final TokenBlacklistService tokenBlacklistService;
 
     @Autowired
-    public JwtTokenProvider(CustomUserDetailService customUserDetailService) {
+    public JwtTokenProvider(CustomUserDetailService customUserDetailService,
+                            TokenBlacklistService tokenBlacklistService) {
         this.customUserDetailService = customUserDetailService;
+        this.tokenBlacklistService = tokenBlacklistService;
     }
 
 
@@ -40,7 +44,7 @@ public class JwtTokenProvider {
                 .setIssuedAt(now)
                 .setExpiration(new Date(expiration))
                 .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
-                .compact(),expiration);
+                .compact(), expiration);
     }
 
     public Authentication getAuthentication(String token) {
@@ -60,7 +64,8 @@ public class JwtTokenProvider {
 
     public boolean validateToken(String jwtToken) {
         try {
-            return getExpirationTime(jwtToken).after(new Date());
+            return getExpirationTime(jwtToken).before(new Date())
+                    && !tokenBlacklistService.isBlacklisted(jwtToken);
         } catch (Exception e) {
             return false;
         }

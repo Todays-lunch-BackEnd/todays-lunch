@@ -11,6 +11,7 @@ import LikeLion.TodaysLunch.token.JwtTokenProvider;
 import java.util.Collections;
 import java.util.concurrent.TimeUnit;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -25,7 +26,8 @@ public class MemberService {
     private final JwtTokenProvider jwtTokenProvider;
     private final MemberRepository memberRepository;
     private final RedisTemplate<String, String> redisTemplate;
-
+    @Autowired
+    private final TokenBlacklistService tokenBlacklistService;
     @Transactional
     public Long join(MemberDto memberDto) {
         validateDuplication(memberDto);
@@ -62,13 +64,14 @@ public class MemberService {
 
     @Transactional
     public void logout(String token) {
-        if (jwtTokenProvider.validateToken(token)) {
+        if (!jwtTokenProvider.validateToken(token)) {
             throw new IllegalArgumentException("유효하지 않은 토큰입니다.");
         }
         Authentication authentication = jwtTokenProvider.getAuthentication(token);
         if (redisTemplate.opsForValue().get(authentication.getName()) != null) {
             redisTemplate.delete(authentication.getName());
         }
+        tokenBlacklistService.addToBlacklist(token);
     }
 
     public MemberDto getAuthenticatedMember(@AuthenticationPrincipal Member member) {
