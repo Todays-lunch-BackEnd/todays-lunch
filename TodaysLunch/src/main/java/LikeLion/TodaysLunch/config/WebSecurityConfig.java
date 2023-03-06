@@ -50,7 +50,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST,"/restaurants/*/reviews/**").authenticated()
                 .antMatchers(HttpMethod.PATCH,"/restaurants/*/reviews/**").authenticated()
                 .antMatchers(HttpMethod.DELETE,"/restaurants/*/reviews/**").authenticated()
-                
+
                 .anyRequest().permitAll()
                 .and()
 
